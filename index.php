@@ -12,34 +12,47 @@ $result = mysqli_query($link, $query);
 <head>
     <meta charset="UTF-8">
     <title>READIFY – Online Book Store</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>Welcome to READIFY</h1>
-<p>Browse our collection of books below.</p>
+<div class="container mt-4">
 
-<hr>
+    <h1 class="mb-3">Welcome to READIFY</h1>
+    <p class="mb-4">Browse our collection of books below.</p>
 
-<?php
-if (mysqli_num_rows($result) > 0) {
+    <div class="row">
+    <?php
+    if (mysqli_num_rows($result) > 0) {
 
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo '
-        <div class="book">
-            <img src="' . $row['cover_image'] . '" alt="' . $row['title'] . '" width="120">
-            <strong>Title:</strong> ' . $row['title'] . '<br>
-            <strong>Author:</strong> ' . $row['author'] . '<br>
-            <strong>Price:</strong> £' . $row['price'] . '<br><br>
-            <a class="button" href="added.php?id=' . $row['book_id'] . '">Add to Cart</a>
-        </div>
-        ';
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            echo '
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="' . $row['cover_image'] . '" class="card-img-top" alt="' . $row['title'] . '">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">' . $row['title'] . '</h5>
+                        <p class="card-text"><strong>Author:</strong> ' . $row['author'] . '</p>
+                        <p class="card-text"><strong>Price:</strong> £' . $row['price'] . '</p>
+                        <a href="added.php?id=' . $row['book_id'] . '" class="btn btn-primary mt-auto">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            ';
+        }
+
+    } else {
+        echo "<p>No books available.</p>";
     }
+    ?>
+    </div>
 
-} else {
-    echo "<p>No books available.</p>";
-}
-?>
+</div>
 
 </body>
 </html>

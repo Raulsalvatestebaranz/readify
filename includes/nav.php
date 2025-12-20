@@ -22,29 +22,45 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <div class="collapse navbar-collapse" id="readifyNav">
             <ul class="navbar-nav ms-auto">
+
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
 
                 <?php if (isset($_SESSION["user_id"])): ?>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">Cart</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="checkout.php">Checkout</a>
+                    </li>
+
                     <li class="nav-item">
                         <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>
                     </li>
+
                 <?php else: ?>
+
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="register.php">Register</a>
                     </li>
+
                 <?php endif; ?>
+
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Bootstrap JS (required for navbar toggle) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,4 +1,12 @@
 <?php
+// Start session
+session_start();
+
+// Show welcome message if logged in
+if (isset($_SESSION['first_name'])) {
+    echo '<p>Welcome, ' . $_SESSION['first_name'] . '</p>';
+}
+
 // Connect to database
 require 'connect_db.php';
 

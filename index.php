@@ -12,6 +12,7 @@ $result = mysqli_query($link, $query);
 <head>
     <meta charset="UTF-8">
     <title>READIFY – Online Book Store</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -25,14 +26,13 @@ if (mysqli_num_rows($result) > 0) {
 
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         echo '
-        <div style="margin-bottom: 30px;">
-            <img src="' . $row['cover_image'] . '" alt="' . $row['title'] . '" width="120"><br>
+        <div class="book">
+            <img src="' . $row['cover_image'] . '" alt="' . $row['title'] . '" width="120">
             <strong>Title:</strong> ' . $row['title'] . '<br>
             <strong>Author:</strong> ' . $row['author'] . '<br>
-            <strong>Price:</strong> £' . $row['price'] . '<br>
-            <a href="added.php?id=' . $row['book_id'] . '">Add to Cart</a>
+            <strong>Price:</strong> £' . $row['price'] . '<br><br>
+            <a class="button" href="added.php?id=' . $row['book_id'] . '">Add to Cart</a>
         </div>
-        <hr>
         ';
     }
 

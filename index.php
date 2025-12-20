@@ -1,14 +1,6 @@
 <?php
-// Start session
-session_start();
-
-// Show welcome message if logged in
-if (isset($_SESSION['first_name'])) {
-    echo '<p>Welcome, ' . $_SESSION['first_name'] . '</p>';
-}
-
-// Connect to database
-require 'connect_db.php';
+require "includes/nav.php";
+require "connect_db.php";
 
 // Retrieve all books
 $query = "SELECT * FROM books";
@@ -29,7 +21,6 @@ $result = mysqli_query($link, $query);
 <hr>
 
 <?php
-// Check if there are books
 if (mysqli_num_rows($result) > 0) {
 
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -38,14 +29,15 @@ if (mysqli_num_rows($result) > 0) {
             <img src="' . $row['cover_image'] . '" alt="' . $row['title'] . '" width="120"><br>
             <strong>Title:</strong> ' . $row['title'] . '<br>
             <strong>Author:</strong> ' . $row['author'] . '<br>
-            <strong>Price:</strong> £' . $row['price'] . '
+            <strong>Price:</strong> £' . $row['price'] . '<br>
+            <a href="added.php?id=' . $row['book_id'] . '">Add to Cart</a>
         </div>
         <hr>
         ';
     }
 
 } else {
-    echo '<p>No books available.</p>';
+    echo "<p>No books available.</p>";
 }
 ?>
 

@@ -1,9 +1,62 @@
-# OS files
+# =========================
+# OS / Editor files
+# =========================
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Environment files
+# VS Code
+.vscode/
+*.code-workspace
+
+# =========================
+# Environment / secrets
+# =========================
 .env
+.env.local
+.env.*.local
 
+# =========================
 # Logs
+# =========================
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Node / Cypress
+# =========================
+node_modules/
+.cypress.env.json
+
+# Cypress cache & artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Cypress binary cache (Windows/macOS/Linux)
+Cypress/
+
+# =========================
+# PHP / Server
+# =========================
+vendor/
+
+# =========================
+# Database dumps (optional)
+# =========================
+*.sql
+*.dump
+
+# =========================
+# XAMPP / Local server noise
+# =========================
+htdocs/
+mysql/
+apache/
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/

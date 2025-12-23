@@ -1,16 +1,11 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+$cart_count = 0;
+if (!empty($_SESSION["cart"])) {
+    foreach ($_SESSION["cart"] as $item) {
+        $cart_count += $item["quantity"];
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -30,7 +25,16 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if (isset($_SESSION["user_id"])): ?>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="cart.php">Cart</a>
+                        <a class="nav-link" href="order_history.php">My Orders</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">
+                            Cart
+                            <?php if ($cart_count > 0): ?>
+                                <span class="badge bg-success ms-1"><?= $cart_count ?></span>
+                            <?php endif; ?>
+                        </a>
                     </li>
 
                     <li class="nav-item">
@@ -38,7 +42,9 @@ if (session_status() === PHP_SESSION_NONE) {
                     </li>
 
                     <li class="nav-item">
-                        <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
+                        <span class="nav-link">
+                            Welcome, <?= htmlspecialchars($_SESSION["first_name"]) ?>
+                        </span>
                     </li>
 
                     <li class="nav-item">
@@ -61,6 +67,3 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 </nav>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

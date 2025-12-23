@@ -1,41 +1,44 @@
 <?php
-// Start session
-session_start();
-
+require "includes/auth_guard.php";
 require "connect_db.php";
 
-// Check if book id is set
-if (isset($_GET["id"])) {
-
-    $id = (int) $_GET["id"];
-
-    // Get book details
-    $q = "SELECT price, title FROM books WHERE book_id = $id";
-    $r = mysqli_query($link, $q);
-
-    if (mysqli_num_rows($r) == 1) {
-        $row = mysqli_fetch_array($r, MYSQLI_ASSOC);
-
-        // Initialise cart if not exists
-        if (!isset($_SESSION["cart"])) {
-            $_SESSION["cart"] = [];
-        }
-
-        // If book already in cart, increase quantity
-        if (isset($_SESSION["cart"][$id])) {
-            $_SESSION["cart"][$id]["quantity"]++;
-        } else {
-            // Add new item
-            $_SESSION["cart"][$id] = [
-                "quantity" => 1,
-                "price" => $row["price"],
-                "title" => $row["title"]
-            ];
-        }
-    }
+/* Validate book ID */
+if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+    header("Location: index.php");
+    exit;
 }
 
-// Redirect back to home
-header("Location: index.php");
-exit();
+$book_id = (int) $_GET["id"];
+
+/* Fetch book */
+$query = "SELECT book_id, title, price FROM books WHERE book_id = $book_id";
+$result = mysqli_query($link, $query);
+
+if (!$result || mysqli_num_rows($result) !== 1) {
+    header("Location: index.php");
+    exit;
+}
+
+$book = mysqli_fetch_assoc($result);
+
+/* Initialize cart */
+if (!isset($_SESSION["cart"])) {
+    $_SESSION["cart"] = [];
+}
+
+/* Add or increment */
+if (isset($_SESSION["cart"][$book_id])) {
+    $_SESSION["cart"][$book_id]["quantity"]++;
+} else {
+    $_SESSION["cart"][$book_id] = [
+        "title"    => $book["title"],
+        "price"    => (float) $book["price"],
+        "quantity" => 1
+    ];
+}
+
+/* Redirect back */
+$redirect = $_SERVER["HTTP_REFERER"] ?? "index.php";
+header("Location: $redirect");
+exit;
 ?>

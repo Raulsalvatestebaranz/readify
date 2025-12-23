@@ -1,8 +1,5 @@
 -- READIFY Database Schema
 
-CREATE DATABASE IF NOT EXISTS readify;
-USE readify;
-
 -- ----------------------------
 -- BOOKS TABLE
 -- ----------------------------
@@ -28,4 +25,26 @@ CREATE TABLE IF NOT EXISTS users (
   reg_date DATETIME NOT NULL,
   PRIMARY KEY (user_id),
   UNIQUE (email)
+);
+-- ----------------------------
+-- ORDERS TABLE
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS orders (
+  order_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id INT UNSIGNED NOT NULL,
+  total DECIMAL(8,2) NOT NULL,
+  order_date DATETIME NOT NULL,
+  PRIMARY KEY (order_id)
+);
+
+-- ----------------------------
+-- ORDER ITEMS TABLE
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS order_items (
+  item_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  order_id INT UNSIGNED NOT NULL,
+  book_id INT UNSIGNED NOT NULL,
+  quantity INT UNSIGNED NOT NULL,
+  price DECIMAL(6,2) NOT NULL,
+  PRIMARY KEY (item_id)
 );

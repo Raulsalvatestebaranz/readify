@@ -1,14 +1,14 @@
 <?php
-// Start session
-session_start();
+require "includes/session.php";
 
-// Unset all session variables
+/* Destroy session safely */
 session_unset();
-
-// Destroy the session
 session_destroy();
 
-// Redirect to login page
-header('Location: login.php');
-exit();
+/* Start fresh session for message */
+session_start();
+$_SESSION["logout_success"] = "You have been logged out successfully.";
+
+header("Location: index.php");
+exit;
 ?>

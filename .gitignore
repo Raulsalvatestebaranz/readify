@@ -29,12 +29,8 @@ yarn-error.log*
 # =========================
 node_modules/
 .cypress.env.json
-
-# Cypress cache & artifacts
 cypress/videos/
 cypress/screenshots/
-
-# Cypress binary cache (Windows/macOS/Linux)
 Cypress/
 
 # =========================
@@ -43,17 +39,11 @@ Cypress/
 vendor/
 
 # =========================
-# Database dumps (optional)
+# Database
 # =========================
-*.sql
 *.dump
-
-# =========================
-# XAMPP / Local server noise
-# =========================
-htdocs/
-mysql/
-apache/
+!sql/
+!sql/*.sql
 
 # =========================
 # Temporary files

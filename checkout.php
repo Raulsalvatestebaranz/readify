@@ -1,34 +1,54 @@
 <?php
+// --------------------------------------------------
+// Checkout Page – READIFY
+// Finalises the order and stores it in the database
+// --------------------------------------------------
+
+// Page title
 $page_title = "Checkout – READIFY";
+
+// Include required files
 require "includes/header.php";
-require "includes/auth_guard.php";
+require "includes/auth_guard.php";        // Only logged-in users
+require "includes/session-cart.php";      // Ensure session + cart exist
 require "includes/nav.php";
 require "connect_db.php";
 
-/* Handle order submission */
+// --------------------------------------------------
+// Handle order submission
+// --------------------------------------------------
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $cart = $_SESSION["cart"] ?? [];
+    // Retrieve cart from session
+    $cart = $_SESSION["cart"];
 
+    // Proceed only if cart is not empty
     if (!empty($cart)) {
 
+        // Logged-in user ID
         $user_id = $_SESSION["user_id"];
         $total = 0;
 
+        // Calculate total order price
         foreach ($cart as $item) {
             $total += $item["price"] * $item["quantity"];
         }
 
-        /* Create order */
+        // --------------------------------------------------
+        // Create order record
+        // --------------------------------------------------
         $query = "
             INSERT INTO orders (user_id, total, order_date)
             VALUES ($user_id, $total, NOW())
         ";
         mysqli_query($link, $query);
 
+        // Get the newly created order ID
         $order_id = mysqli_insert_id($link);
 
-        /* Insert order items */
+        // --------------------------------------------------
+        // Insert order items
+        // --------------------------------------------------
         foreach ($cart as $book_id => $item) {
             $price = $item["price"];
             $qty   = $item["quantity"];
@@ -40,19 +60,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             mysqli_query($link, $item_query);
         }
 
-        /* Clear cart */
+        // --------------------------------------------------
+        // Clear cart after successful order
+        // --------------------------------------------------
         unset($_SESSION["cart"]);
 
-        /* Success message */
+        // Store success message for order history page
         $_SESSION["order_success"] = "Your order has been placed successfully!";
 
-        /* 🔁 Redirect to My Orders */
+        // Redirect to order history
         header("Location: order_history.php");
         exit;
     }
 }
 
-$cart = $_SESSION["cart"] ?? [];
+// Retrieve cart for display
+$cart = $_SESSION["cart"];
 $total = 0;
 ?>
 
@@ -74,6 +97,7 @@ $total = 0;
 
     <div class="row">
 
+        <!-- Order summary -->
         <div class="col-md-6 mb-4">
             <h4>Order Summary</h4>
 
@@ -104,6 +128,7 @@ $total = 0;
             <h5>Total: £<?= number_format($total, 2) ?></h5>
         </div>
 
+        <!-- User details form (mock checkout form) -->
         <div class="col-md-6">
             <h4>Your Details</h4>
 

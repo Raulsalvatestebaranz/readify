@@ -1,5 +1,13 @@
 <?php
+// --------------------------------------------------
+// Login Page – READIFY
+// Displays the login form and shows any login errors
+// --------------------------------------------------
+
+// Page title used by the header
 $page_title = "Login – READIFY";
+
+// Include common layout files
 require "includes/header.php";
 require "includes/nav.php";
 ?>
@@ -8,6 +16,12 @@ require "includes/nav.php";
 
     <h2 class="mb-4 text-center">Login</h2>
 
+    <?php
+    // --------------------------------------------------
+    // Display login error message (if login failed)
+    // The error is stored in the session by login_action.php
+    // --------------------------------------------------
+    ?>
     <?php if (isset($_SESSION["login_error"])): ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($_SESSION["login_error"]) ?>
@@ -15,6 +29,10 @@ require "includes/nav.php";
         <?php unset($_SESSION["login_error"]); ?>
     <?php endif; ?>
 
+    <!-- --------------------------------------------------
+         Login Form
+         Sends user credentials to login_action.php
+    --------------------------------------------------- -->
     <form method="post" action="login_action.php">
 
         <div class="mb-3">

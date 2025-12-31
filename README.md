@@ -1,213 +1,115 @@
+Got it 👍
+I’ll **rewrite it in a simple, natural, informal way**, explaining **everything we actually did**, with **no trees, no numbered lists, no fancy formatting** that could break Markdown. Just clean headings + plain text.
 
-# 📚 Readify — PHP & MySQL eCommerce Application
-
-Readify is a dynamic PHP web application developed as part of **Challenge 4 – Portfolio** for  
-**Web Technologies EC149759/026**.
-
-The project demonstrates core web development concepts including **user authentication**,  
-**session management**, **access control**, and a **database-driven product and order system**  
-using **procedural PHP** and **MySQL**.
+You can paste this **directly over your README.md**.
 
 ---
 
-## 🎯 Project Objective
+# 📚 Readify — PHP & MySQL Web Application
 
-The objective of this project is to create a PHP web application that allows users to:
+Readify is a PHP web application built as part of **Challenge 4 – Portfolio** for the module **Web Technologies EC149759/026**.
 
-- Register an account
-- Log in securely
-- Access protected pages
-- Browse products (books)
-- Add products to a shopping cart
-- Complete a checkout process
-- Store orders in a relational database
-
-Only authenticated users can access protected pages.
+This project was developed step by step to demonstrate how a dynamic website works using **procedural PHP**, **MySQL**, **sessions**, and **Bootstrap**. The focus of the project is not just appearance, but understanding how authentication, access control, shopping carts, and orders work together in a real application.
 
 ---
 
-## 🧩 Key Features
+## What this project does
 
-### 👤 User Authentication
-- User registration with validation
-- Secure login using email and password
-- Passwords stored using hashing
-- Logout functionality that ends the session
+The application allows users to create an account, log in, and interact with a simple online book store. Once logged in, users can browse books, add them to a cart, update quantities, complete a checkout, and view their past orders. Pages that require authentication are protected so only logged-in users can access them.
 
-### 🔐 Session Management & Access Control
-- PHP sessions track logged-in users
-- Session variables identify authenticated users
-- Protected pages redirect unauthenticated users to the login page
-
-### 📖 Product Catalogue
-- Products are stored in the database (`books` table)
-- Each product includes:
-  - Title
-  - Author
-  - Description
-  - Price
-  - Cover image
-
-### 🛒 Shopping Cart
-- Session-based shopping cart
-- Users can add multiple items
-- Quantities are tracked per product
-- Cart totals are calculated dynamically
-
-### 💳 Checkout & Orders
-- Orders are saved to the database
-- Each order is linked to the logged-in user
-- Order items store:
-  - Book reference
-  - Quantity
-  - Price at time of purchase
-- Prices are stored per order item to preserve historical accuracy
+Sessions are used throughout the project to track the logged-in user and to store cart data while the user navigates between pages.
 
 ---
 
-## 🗄️ Database Structure
+## User registration and login
 
-Database name: **`readify`**
+Users can register by providing their first name, last name, email, and password. The password is securely stored in the database using hashing.
 
-### Tables
+After registration, the user is automatically logged in by creating session variables and redirected to the home page. This improves the user experience and shows how sessions can be created immediately after inserting a new user into the database.
 
-#### `users`
-Stores registered users.
-- `user_id` (Primary Key)
-- `first_name`
-- `last_name`
-- `email`
-- `password`
-- `reg_date`
-
-#### `books`
-Stores available products.
-- `book_id` (Primary Key)
-- `title`
-- `author`
-- `description`
-- `price`
-- `cover_image`
-
-#### `orders`
-Stores order headers.
-- `order_id` (Primary Key)
-- `user_id` (linked to users)
-- `total`
-- `order_date`
-
-#### `order_items`
-Stores individual items per order.
-- `item_id` (Primary Key)
-- `order_id` (linked to orders)
-- `book_id` (linked to books)
-- `quantity`
-- `price`
+The login system validates credentials against the database and uses sessions to keep the user logged in across pages. If login fails, a clear error message is displayed. Users can also log out, which safely destroys the session and redirects them back to the home page.
 
 ---
 
-## 🔗 Data Relationships
+## Session management and access control
 
-- One user can place many orders
-- One order can contain many order items
-- Each order item references a book
-- Order item prices are stored independently from current product prices
+Sessions are central to this project. A dedicated session bootstrap file ensures sessions are started safely across the application.
 
----
+An authentication guard file is used to protect restricted pages such as the cart, checkout, and order history. If a user tries to access these pages without being logged in, they are redirected to the login page. After logging in, they are returned to the page they originally tried to access.
 
-## 📂 Project Structure
-
-```text
-readify/
-├── css/
-├── img/
-├── includes/
-├── cypress/
-├── sql/
-│
-├── index.php
-├── register.php
-├── login.php
-├── login_action.php
-├── logout.php
-├── added.php
-├── cart.php
-├── checkout.php
-├── order_history.php
-├── connect_db.php
-│
-├── package.json
-├── package-lock.json
-├── cypress.config.js
-└── README.md
-````
+This demonstrates proper access control using PHP sessions.
 
 ---
 
-## 🧪 Testing
+## Product catalogue
 
-Basic end-to-end testing is configured using **Cypress** to validate:
+Books are stored in the database and displayed dynamically on the home page. Each book includes a title, author, price, and cover image. Products are displayed using Bootstrap cards and a responsive grid layout that adapts to different screen sizes.
 
-* Page loading
-* User navigation
-* Authentication flow
-
-Cypress is included as a development tool to support testing concepts covered in the module.
+All product data shown on the page comes directly from the database.
 
 ---
 
-## 🚀 How to Run the Project
+## Shopping cart
 
-1. Clone the repository
-2. Place the project inside:
+The shopping cart is implemented using PHP sessions. When a user adds a book to the cart, the item is stored in the session along with its price and quantity.
 
-   ```
-   C:\xampp\htdocs\
-   ```
-3. Start **Apache** and **MySQL** using XAMPP
-4. Import the database from the `sql` folder using phpMyAdmin
-5. Open the project in a browser:
+Users can update quantities directly from the cart page. Setting a quantity to zero removes the item from the cart. Cart totals and subtotals are recalculated dynamically on each update.
 
-   ```
-   http://localhost/readify
-   ```
+A shared session-cart file ensures the cart is always initialised consistently across all cart-related pages.
 
 ---
 
-## 🎓 Academic Context
+## Checkout and orders
 
-This project was developed for:
+During checkout, the application calculates the total price of the cart and creates a new order in the database. Each item in the cart is stored in a separate order items table along with its quantity and price at the time of purchase.
 
-**Challenge 4 – Portfolio**
-**Web Technologies EC149759/026**
+Storing the price per order item ensures historical accuracy even if product prices change later.
 
-It demonstrates:
-
-* Procedural PHP
-* MySQL database integration
-* User authentication
-* Session management
-* Access control to protected pages
-* Dynamic, database-driven content
+After checkout, the cart is cleared and the user is redirected to the order history page.
 
 ---
 
-## ✅ Project Status
+## Order history
 
-✔ User registration implemented
-✔ Secure login and logout
-✔ Session-protected pages
-✔ Products displayed dynamically
-✔ Shopping cart functional
-✔ Checkout and orders stored
-✔ Database relationships working correctly
+Logged-in users can view all their previous orders. Each order shows the order date, total amount, and the individual items included in the order.
+
+Orders are retrieved using the user’s session ID, ensuring users can only see their own data. This page demonstrates database relationships and joins between orders, order items, and books.
 
 ---
 
-## 🙌 Author
+## User interface and responsiveness
 
-Developed by **[Your Name]**
+Bootstrap is used throughout the project to create a clean and responsive interface. The layout adapts correctly on desktop, tablet, and mobile devices.
+
+The navigation bar changes based on whether the user is logged in. When logged in, it shows links to orders, cart, and checkout, as well as the user’s name. A cart badge dynamically displays the total number of items in the cart.
+
+---
+
+## Testing and verification
+
+The project was tested manually by navigating through all user flows, including registration, login, cart updates, checkout, and order history. Responsive behaviour was verified using browser developer tools.
+
+Basic Cypress configuration is included to demonstrate awareness of automated testing concepts covered in the module.
+
+---
+
+## Academic context
+
+
+It demonstrates core concepts taught in the module, including procedural PHP, MySQL database integration, session handling, access control, and dynamic content generation.
+
+---
+
+## Project status
+
+The project is fully functional. User authentication works correctly, sessions are handled safely, the shopping cart behaves as expected, orders are stored and displayed correctly, and the interface is responsive and easy to use.
+
+---
+
+## Author
+
+Developed by **Raul Salvat**
 Web Technologies — Portfolio Project
 
-```
+---
 

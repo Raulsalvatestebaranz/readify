@@ -1,10 +1,42 @@
 <?php
+// --------------------------------------------------
+// Cart Page – READIFY
+// Displays cart contents and allows quantity updates
+// --------------------------------------------------
+
+// Page title
 $page_title = "Your Cart – READIFY";
+
+// Include required files
 require "includes/header.php";
 require "includes/auth_guard.php";
+require "includes/session-cart.php"; // ensures session + cart exist
 require "includes/nav.php";
 
-$cart = $_SESSION["cart"] ?? [];
+// --------------------------------------------------
+// Handle cart updates when form is submitted
+// --------------------------------------------------
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["qty"])) {
+
+    foreach ($_POST["qty"] as $id => $quantity) {
+
+        // Convert values to integers for safety
+        $id = (int) $id;
+        $quantity = (int) $quantity;
+
+        // Remove item if quantity is zero or less
+        if ($quantity <= 0) {
+            unset($_SESSION["cart"][$id]);
+        }
+        // Otherwise update quantity
+        elseif (isset($_SESSION["cart"][$id])) {
+            $_SESSION["cart"][$id]["quantity"] = $quantity;
+        }
+    }
+}
+
+// Retrieve cart from session
+$cart = $_SESSION["cart"];
 $total = 0;
 ?>
 
@@ -24,6 +56,7 @@ $total = 0;
 
     <h2 class="mb-4">Your Shopping Cart</h2>
 
+    <!-- Cart update form -->
     <form method="post">
 
         <table class="table table-bordered align-middle">

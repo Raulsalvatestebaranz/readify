@@ -103,7 +103,6 @@ The project is fully functional. User authentication works correctly, sessions a
 ## Author
 
 Developed by **Raul Salvat**
-Web Technologies — Portfolio Project
-
+Web Technologies
 ---
 

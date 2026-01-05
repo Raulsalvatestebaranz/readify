@@ -1,7 +1,7 @@
 
 # 📚 Readify — PHP & MySQL Web Application
 
-Readify is a PHP web application built as part of **Challenge 4 – Portfolio** for the module **Web Technologies EC149759/026**.
+Readify is a PHP web application built as part of **Portfolio** for the module **Web Technologies**.
 
 This project was developed step by step to demonstrate how a dynamic website works using **procedural PHP**, **MySQL**, **sessions**, and **Bootstrap**. The focus of the project is not just appearance, but understanding how authentication, access control, shopping carts, and orders work together in a real application.
 
